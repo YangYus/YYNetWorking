@@ -29,7 +29,7 @@ loginRequest *logRequest = [[loginRequest alloc] initWithLoginRequest:@"" passWo
     [logRequest startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
          NSLog(@"%@",request.responseObject);
     } failureCallBack:^(__kindof YYBaseRequest *request) {
-        
+        NSLog(@"%@",request.error);
     }];
 
 ### 上传图片 
@@ -46,7 +46,7 @@ UIImage *imag = [UIImage imageNamed:@""];
     [requstPath startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
         NSLog(@"%@",request.uploadProgress); //上传进度
     } failureCallBack:^(__kindof YYBaseRequest *request) {
-        
+        NSLog(@"%@",request.error);
     }];
 
 ####详细参考demo
