@@ -13,9 +13,9 @@
  *  基类URL的定义
  */
 #if DEBUG
-#define DOMAIN_API                   @""
+#define DEBUGDOMAIN_API                   @"https//:www.baidu.com/"
 #else
-#define DOMAIN_API                   @""
+#define RELESEDOMAIN_API                  @"https//:www.baidu.com/"
 #endif
 
 #endif /* YYRequestConfig_h */

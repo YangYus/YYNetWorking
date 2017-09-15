@@ -21,7 +21,7 @@
     //可以直接使用基类
     YYBaseRequest *request = [YYBaseRequest new];
     request.requestMethod = YYRequestMethodGET; //默认GET
-    request.url = @"";
+    request.url = @"v1/userInfo";
     request.requestParameters = @{};//字典参数
     [request startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
         NSLog(@"%@",request.responseObject);
