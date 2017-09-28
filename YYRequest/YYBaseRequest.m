@@ -13,7 +13,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.baseUrl = DOMAIN_API;
+        self.baseUrl = DEBUGDOMAIN_API;
         self.url = @"";
         self.imageSize = 0.28f;
         self.requestMethod = YYRequestMethodGET;

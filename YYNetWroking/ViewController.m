@@ -32,7 +32,7 @@
     //可以对不同的业务创建相应的网络层
     loginRequest *logRequest = [[loginRequest alloc] initWithLoginRequest:@"" passWord:@""];
     [logRequest startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
-        
+       
     } failureCallBack:^(__kindof YYBaseRequest *request) {
         
     }];
@@ -45,13 +45,26 @@
     request.imageSize = 0.8f;
     [requstPath startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
         NSLog(@"%@",request.uploadProgress); //上传进度
+       
     } failureCallBack:^(__kindof YYBaseRequest *request) {
         
     }];
     
-    LoginDataViewModel *loginM = [[LoginDataViewModel alloc] initWithLogin:@"" passWord:@""];
-    [loginM loginDataCallBack:^(YYBaseRequest *request) {
-        NSLog(@"%@",request.responseObject);
+    //这个参考思想 可以忽略
+//    LoginDataViewModel *loginM = [[LoginDataViewModel alloc] initWithLogin:@"" passWord:@""];
+//    [loginM loginDataCallBack:^(YYBaseRequest *request) {
+//        NSLog(@"%@",request.responseObject);
+//    }];
+    
+    YYBaseRequest *downRequst = [YYBaseRequest new];
+    downRequst.requestMethod = YYRequestDownTask;
+    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)lastObject];
+    //设置下载路径
+    downRequst.resumableDownloadPath = filePath;
+    [downRequst startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
+        NSLog(@"返回的下载Url = %@",request.responseObject);
+    } failureCallBack:^(__kindof YYBaseRequest *request) {
+        
     }];
     
 }

@@ -50,7 +50,7 @@ static NSString *YYUrlStringFromRequset(YYBaseRequest *request) {
     
 }
 
-- (void)handleReponseResult:(NSURLSessionDataTask *)task response:(id)responseObject error:(NSError *)error {
+- (void)handleReponseResult:(NSURLSessionTask *)task response:(id)responseObject error:(NSError *)error {
     NSString *key = [self taskHashKey:task];
     YYBaseRequest *request = self.requests[key];
     request.responseObject = responseObject;
@@ -66,7 +66,7 @@ static NSString *YYUrlStringFromRequset(YYBaseRequest *request) {
     
 }
 
-- (NSString *)taskHashKey:(NSURLSessionDataTask *)task {
+- (NSString *)taskHashKey:(NSURLSessionTask *)task {
     return [NSString stringWithFormat:@"%lu", (unsigned long)[task hash]];
 }
 
@@ -108,7 +108,7 @@ static NSString *YYUrlStringFromRequset(YYBaseRequest *request) {
     //处理参数
     id params = request.requestParameters;
     
-    NSURLSessionDataTask *task = nil;
+    NSURLSessionTask *task = nil;
     switch (method) {
         case YYRequestMethodGET: {
             task = [self.sessionManger GET:url parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -173,6 +173,24 @@ static NSString *YYUrlStringFromRequset(YYBaseRequest *request) {
                 //上传失败
                  [self handleReponseResult:task response:nil error:error];
             }];
+        }
+            break;
+        case YYRequestDownTask: {
+            NSURL *urls = [NSURL URLWithString:url];
+            NSURLRequest *requests = [NSURLRequest requestWithURL:urls];
+            task = [self.sessionManger downloadTaskWithRequest:requests progress:^(NSProgress * _Nonnull downloadProgress) {
+                //打印下下载进度
+                request.uploadProgress(downloadProgress);
+//                NSLog(@"%lf",1.0 * downloadProgress.completedUnitCount / downloadProgress.totalUnitCount);
+            } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+                //设置下载路径，通过沙盒获取缓存地址，最后返回NSURL对象
+                NSString *filePath = request.resumableDownloadPath;
+                return [NSURL fileURLWithPath:filePath];
+               
+            } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+                [self handleReponseResult:task response:filePath error:error];
+            }];
+            [task resume];
         }
             break;
         default:

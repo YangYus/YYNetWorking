@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, YYRequestMethod){
     YYRequestMethodPUT,
     YYRequestMethodDELETE,
     YYRequestMethodPATCH,
+    YYRequestDownTask,
 };
 
 typedef NS_ENUM(NSInteger, YYResponseSerializerType){
@@ -36,7 +37,7 @@ typedef void(^YYRequestFailureCallback)(__kindof YYBaseRequest *request);
 
 
 @interface YYBaseRequest : NSObject
-@property (nonatomic, strong) NSURLSessionDataTask *task;
+@property (nonatomic, strong)NSURLSessionTask *task;
 @property (nonatomic, copy) NSString *baseUrl;
 /*! url*/
 @property (nonatomic, copy) NSString *url;
@@ -67,6 +68,11 @@ typedef void(^YYRequestFailureCallback)(__kindof YYBaseRequest *request);
 /*! 进度值*/
 @property (nonatomic, copy) void (^uploadProgress)(NSProgress *progress);
 
+/*! 下载路径*/
+@property (nonatomic, copy) NSString *resumableDownloadPath;
+
+/*! 下载路径Block*/
+@property (nonatomic, strong) void (^uploadFilePath)(NSURL *filePath);
 // POST upload request such as images, default nil
 @property (nonatomic, copy) void (^constructionBodyBlock)(id<AFMultipartFormData>formData);
 
