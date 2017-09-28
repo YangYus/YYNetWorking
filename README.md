@@ -45,6 +45,7 @@ UIImage *imag = [UIImage imageNamed:@""];
     
     [requstPath startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
         NSLog(@"%@",request.uploadProgress); //上传进度
+	NSLog(@"%@",request.responseObject); //成功回调
     } failureCallBack:^(__kindof YYBaseRequest *request) {
         NSLog(@"%@",request.error);
     }];
