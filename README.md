@@ -49,6 +49,23 @@ UIImage *imag = [UIImage imageNamed:@""];
         NSLog(@"%@",request.error);
     }];
 
+
+### 下载
+YYBaseRequest *downRequst = [YYBaseRequest new];
+
+    downRequst.requestMethod = YYRequestDownTask;
+    
+    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)lastObject];
+    //设置下载路径
+    
+    downRequst.resumableDownloadPath = filePath;
+    
+    [downRequst startRequestSuccessCallBack:^(__kindof YYBaseRequest *request) {
+        NSLog(@"返回的下载Url = %@",request.responseObject);
+    } failureCallBack:^(__kindof YYBaseRequest *request) {
+        
+    }];
+
 ####详细参考demo
 
 # 安装
